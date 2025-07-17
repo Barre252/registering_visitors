@@ -1,0 +1,62 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm py-2">
+  <div class="container">
+    <!-- Logo/Brand - kept your great version -->
+    <a class="navbar-brand fs-3 fw-bold d-flex align-items-center" href="{% url 'dashboard' %}">
+      <i class="fa fa-users me-2"></i> 
+      <span class="d-none d-sm-inline">MoCT Visitors</span>
+    </a>
+
+    <!-- Mobile Toggle -->
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <i class="fa fa-bars text-white"></i>
+    </button>
+
+    <!-- Navigation Links - More Elegant Version -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link position-relative px-3" href="{% url 'dashboard' %}">
+            <i class="fa fa-home me-1"></i>
+            Dashboard
+            <span class="position-absolute bottom-0 start-50 translate-middle-x bg-white rounded" style="height: 2px; width: 0; transition: width 0.3s ease;"></span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link position-relative px-3" href="{% url 'register_visitor' %}">
+            <i class="fa fa-user-plus me-1"></i>
+            Register
+            <span class="position-absolute bottom-0 start-50 translate-middle-x bg-white rounded" style="height: 2px; width: 0; transition: width 0.3s ease;"></span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link position-relative px-3 text-white-80" href="{% url 'user_logout' %}">
+            <i class="fa fa-sign-out me-1"></i>
+            Sign Out
+            <span class="position-absolute bottom-0 start-50 translate-middle-x bg-white rounded" style="height: 2px; width: 0; transition: width 0.3s ease;"></span>
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Add this small script for hover effects -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const navLinks = document.querySelectorAll('.nav-link');
+  
+  navLinks.forEach(link => {
+    link.addEventListener('mouseenter', function() {
+      this.querySelector('span').style.width = '70%';
+    });
+    
+    link.addEventListener('mouseleave', function() {
+      this.querySelector('span').style.width = '0';
+    });
+  });
+});
+</script>

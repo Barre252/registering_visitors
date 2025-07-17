@@ -1,0 +1,316 @@
+
+{% extends 'visitor_app/base.html' %}
+
+{% block content %}
+
+<!-- Today's Visits Section -->
+<div class="container-fluid mt-4">
+  <div class="card border-0 shadow mb-4">
+    <div class="card-header bg-info text-white py-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <h3 class="mb-0">
+          <i class="fa fa-calendar-day me-2"></i>Today's Visit Requests
+        </h3>
+         <!-- <a href="/register_visitor" class="btn btn-light btn-sm">
+          <i class="fa fa-plus me-1"></i> Add New
+        </a> -->
+        <span class="badge bg-white text-info fs-6">{{ today|date:"F j, Y" }}</span>
+      </div>
+    </div>
+    
+    <div class="card-body px-0 py-2">
+      <div class="table-responsive">
+        <table id="todaysVisits" class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th class="ps-4">ID</th>
+              <th>Visitor Name</th>
+              <th>Phone</th>
+              <th>Person to Visit</th>
+              <th>Shaqaale Dowladda</th>
+              <!-- <th>Status</th> -->
+              <th class="text-end pe-4">View Full Info</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% if todays_records %}
+              {% for record in todays_records %}
+              <tr>
+                <!-- <td class="ps-4 fw-semibold">{{ record.id }}</td>
+                <td>{{ record.full_name }}</td>
+                <td>{{ record.phone_number }}</td>
+                <td>{{ record.person_to_visit }}</td> -->
+                <!-- <td>
+                  <span class="d-inline-block text-truncate" style="max-width: 120px;"
+                        data-bs-toggle="tooltip" 
+                        data-bs-html="true"
+                        title='<div class="text-start"><strong>Reason:</strong><br>{{ record.visit_reason }}</div>'>
+                    {{ record.visit_reason }}
+                  </span>
+                </td>
+                <td>{{ record.hours_to_stay }} hrs</td>
+                <td>{{ record.check_in_date|time:"H:i" }}</td>-->
+                <!-- <td>  -->
+                  <!-- <span class="badge d-inline-flex align-items-center
+                    {% if record.visit_status == 'Waiting' %}bg-warning text-dark
+                    {% elif record.visit_status == 'Next' %}bg-info text-white
+                    {% elif record.visit_status == 'Ongoing' %}bg-primary text-white
+                    {% elif record.visit_status == 'Completed' %}bg-success text-white
+                    {% elif record.visit_status == 'Postponed' %}bg-secondary text-white
+                    {% elif record.visit_status == 'Cancelled' %}bg-danger text-white
+                    {% elif record.visit_status == 'Rejected' %}bg-dark text-white
+                    {% else %}bg-light text-dark{% endif %}">
+                    {% if record.visit_status == 'Waiting' %}
+                        <i class="fa fa-clock me-1"></i>Waiting
+                    {% elif record.visit_status == 'Next' %}
+                        <i class="fa fa-arrow-right me-1"></i>Next
+                    {% elif record.visit_status == 'Ongoing' %}
+                        <i class="fa fa-spinner fa-spin me-1"></i>Ongoing
+                    {% elif record.visit_status == 'Completed' %}
+                        <i class="fa fa-check-circle me-1"></i>Completed
+                    {% elif record.visit_status == 'Postponed' %}
+                        <i class="fa fa-calendar-plus me-1"></i>Postponed
+                    {% elif record.visit_status == 'Cancelled' %}
+                        <i class="fa fa-times-circle me-1"></i>Cancelled
+                    {% elif record.visit_status == 'Rejected' %}
+                        <i class="fa fa-ban me-1"></i>Rejected
+                    {% else %}
+                        <i class="fa fa-question-circle me-1"></i>Unknown
+                    {% endif %}
+                  </span> -->
+                <!-- </td> -->
+                <td class="text-end pe-4">
+                  <div class="btn-group btn-group-sm" role="group">
+                    <!-- View Button -->
+                    <!-- <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#todayViewModal{{ record.id }}">
+                      <i class="fa fa-eye"> View</i>
+                    </button> -->
+                    
+                    <!-- Approve Button -->
+                    <!-- <button type="button" class="btn btn-outline-success" title="Approve Visit">
+                      <i class="fa fa-check"></i>
+                    </button> -->
+                    
+                    <!-- Wait Time Dropdown -->
+                    <!-- <div class="btn-group btn-group-sm" role="group">
+                      <button type="button" class="btn btn-outline-warning dropdown-toggle" data-bs-toggle="dropdown" title="Wait Time">
+                        <i class="fa fa-clock"></i>
+                      </button>
+                      <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#"><i class="fa fa-clock me-2"></i>Wait 15 minutes</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fa fa-clock me-2"></i>Wait 30 minutes</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fa fa-clock me-2"></i>Wait 1 hour</a></li>
+                      </ul>
+                    </div> -->
+                    
+                    <!-- Postpone Button -->
+                    <!-- <button type="button" class="btn btn-outline-secondary" title="Postpone to Tomorrow">
+                      <i class="fa fa-forward"></i>
+                    </button> -->
+                    
+                    <!-- Cancel Button -->
+                    <!-- <button type="button" class="btn btn-outline-danger" title="Cancel Visit">
+                      <i class="fa fa-times"></i>
+                    </button> -->
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+            {% else %}
+              <!-- <tr>
+                <td colspan="9" class="text-center py-4 text-muted">No visits scheduled for today</td>
+              </tr> -->
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- All Visitors Section -->
+<div class="container-fluid mt-4">
+  <div class="card border-0 shadow">
+    <div class="card-header bg-primary text-white py-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <h3 class="mb-0">
+          <i class="fa fa-users me-2"></i>Visitors List
+        </h3>
+        <!-- <a href="/add" class="btn btn-light btn-sm">
+          <i class="fa fa-plus me-1"></i> Add New
+        </a> -->
+      </div>
+    </div>
+    
+    <div class="card-body px-0 py-2">
+      <div class="table-responsive">
+        <table id="datatables" class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th class="ps-4">ID</th>
+              <th>Full Name</th>
+              <th>Phone</th>
+              <th>Person to Visit</th>
+              <th>Reason</th>
+              <th>Duration</th>
+              <th>Entry Date/Time</th>
+              <th class="text-end pe-4">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% if records %}
+              {% for record in records %}
+              <tr>
+                <td class="ps-4 fw-semibold">{{ record.id }}</td>
+                <td>{{ record.full_name }}</td>
+                <td>{{ record.phone_number }}</td>
+                <td>{{ record.person_to_visit }}</td>
+                <td>
+                  <span class="d-inline-block text-truncate" style="max-width: 120px;"
+                        data-bs-toggle="tooltip" 
+                        data-bs-html="true"
+                        title='<div class="text-start"><strong>Reason:</strong><br>{{ record.visit_reason }}</div>'>
+                    {{ record.visit_reason }}
+                  </span>
+                </td>
+                <td>{{ record.hours_to_stay }} hrs</td>
+                <td>{{ record.check_in_date }}</td>
+                <td class="text-end pe-4">
+                  <div class="btn-group btn-group-sm" role="group">
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#viewModal{{ record.id }}">
+                      <i class="fa fa-eye"></i> View
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+            {% else %}
+              <!-- <tr>
+                <td colspan="8" class="text-center py-4 text-muted">No visitor records found</td>
+              </tr> -->
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Container for dynamically added modals -->
+<div id="dynamicModals"></div>
+
+<!-- Modals for All Visitors -->
+{% if records %}
+  {% for record in records %}
+  <!-- View Modal -->
+  <div class="modal fade" id="viewModal{{ record.id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title">
+            <i class="fa fa-user-circle me-2"></i>Visitor Details
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card mb-3">
+                <div class="card-header bg-light">
+                  <h6 class="mb-0">Personal Information</h6>
+                </div>
+                <div class="card-body">
+                  <dl class="row mb-0">
+                    <dt class="col-sm-4">Full Name</dt>
+                    <dd class="col-sm-8">{{ record.full_name }}</dd>
+                    
+                    <dt class="col-sm-4">Phone</dt>
+                    <dd class="col-sm-8">{{ record.phone_number }}</dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card mb-3">
+                <div class="card-header bg-light">
+                  <h6 class="mb-0">Visit Information</h6>
+                </div>
+                <div class="card-body">
+                  <dl class="row mb-0">
+                    <dt class="col-sm-4">Person to Visit</dt>
+                    <dd class="col-sm-8">{{ record.person_to_visit }}</dd>
+                    
+                    <dt class="col-sm-4">Reason</dt>
+                    <dd class="col-sm-8">{{ record.visit_reason }}</dd>
+                    
+                    <dt class="col-sm-4">Duration</dt>
+                    <dd class="col-sm-8">{{ record.hours_to_stay }} hours</dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header bg-light">
+              <h6 class="mb-0">Timing Information</h6>
+            </div>
+            <div class="card-body">
+              <dl class="row mb-0">
+                <dt class="col-sm-4">Check-in Date/Time</dt>
+                <dd class="col-sm-8">{{ record.check_in_date }}</dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <i class="fa fa-times me-1"></i> Close
+          </button>
+          <!-- <a href="/update/{{ record.id }}" class="btn btn-primary">
+            <i class="fa fa-edit me-1"></i> Update
+          </a>
+          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ record.id }}">
+            <i class="fa fa-trash me-1"></i> Delete
+          </button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Modal -->
+  <div class="modal fade" id="deleteModal{{ record.id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title">
+            <i class="fa fa-exclamation-triangle me-2"></i>Confirm Deletion
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="text-center mb-4">
+            <i class="fa fa-user-times text-danger" style="font-size: 3rem;"></i>
+            <h5 class="mt-3">{{ record.full_name }}</h5>
+          </div>
+          <div class="alert alert-danger mb-0">
+            <i class="fa fa-warning me-2"></i>This will permanently delete all visitor data. This action cannot be undone.
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <i class="fa fa-times me-1"></i> Cancel
+          </button>
+          <a href="/delete/{{ record.id }}" class="btn btn-danger">
+            <i class="fa fa-trash me-1"></i> Delete Permanently
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+{% endif %}
+
+
+{% endblock %}

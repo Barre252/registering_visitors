@@ -1,0 +1,44 @@
+{% extends 'visitor_app/base.html' %}
+
+<br />
+
+{% load crispy_forms_tags %}
+
+<br />
+
+{% block content %}
+<body>
+  {% if messages %} {% for message in messages %} {% if message %}
+  <div class="alert alert-info alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+  {% endif %} {% endfor %} {% endif %}
+
+ <div class="bg-light shadow-md p-5 form-layout mx-auto" style="max-width: 500px;">
+  <h3>LogIn to your account</h3>
+  <hr />
+  <br />
+
+  <form action="" method="POST" autocomplete="off">
+    {% csrf_token %}
+    <input type="text" name="fake_username" style="display: none" autocomplete="username" />
+    <input type="password" name="fake_password" style="display: none" autocomplete="new-password" />
+
+    {{ form|crispy }}
+
+    <button type="submit" class="btn btn-primary w-100 btn-block p-2">
+      login &nbsp; <i class="fa fa-key" aria-hidden="true"></i>
+    </button>
+  </form>
+</div>
+
+
+  <br />
+</body>
+{% endblock %}
